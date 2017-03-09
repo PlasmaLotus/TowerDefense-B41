@@ -8,5 +8,5 @@ class Creep():
 		self.speed = speed
 		self.attaque = attaque
 
-	def move(self):
+	def update(self):
 		pass

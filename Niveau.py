@@ -34,6 +34,7 @@ class Niveau:
     
 class NiveauDebug(Niveau):
     def __init__(self):
-        super()
+        #super()
+        Niveau.__init__(self)
         self.map=MapPreset1()
         

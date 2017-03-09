@@ -9,6 +9,8 @@ from Niveau import *
 import Creep
 from Creep import *
 
+import Tower
+from Tower import *
 
 
 ## AKA "Modele" ## 
@@ -24,6 +26,7 @@ class Game():
         self.towerList=[]# liste des tours actives
         #self.map=Map()
         self.HP = 1 # vie du joueur?
+        self.universalId = 0
 
     
     #/ initialise le niveau et toutes ses composante ##    
@@ -36,15 +39,29 @@ class Game():
 
         ##Test##      
         self.enemyList=[]  
-        self.enemyList.append(Creep())
+        self.towerList=[]
+        self.testInitEnemy()
+        self.testInitTower()
+
         #self.enemyList[0].setPos(self.map.spawnPointX, self.map.spawnPointY)
     
     
     ## Mise a jour du jeu (une fois par frame, probablement appelée par controlleur)##
     def update(self):
-        for i in range(len(self.enemyList) ):
-            self.enemyList[i].move()
+
+        for i in range(len(self.towerList) ):
+        	self.towerList[i].update() 
         
+        for i in range(len(self.enemyList) ):
+            self.enemyList[i].update()
+            enemyPos = [self.enemyList[i].x, self.enemyList[i].y]
+            if (enemyPos == self.map.getEnd()):
+            	print("Enemy Breach")
+            	self.hp-=1
+            
+            
+        
+        self.testTower()
         #if (self.hp <= 0):
             ##Gameover
             
@@ -58,4 +75,15 @@ class Game():
 
         	#print( "Enemy ",i, " : ", str(self.enemyList[i].x), " - ", str(self.enemyList[i].y) )
     
-    
+    def testInitTower(self):
+    	self.towerList.append(Tower())
+    	self.towerList.append(Tower())
+    	self.towerList[0].setPos(10, 70)
+    	self.towerList[1].setPos(10, 100)
+    	
+    def testInitEnemy(self):
+    	self.enemyList.append(Creep())
+		
+    def testTower(self):
+    	for i in range( len(self.towerList) ):
+    		self.towerList[i].findEnemy(self.enemyList)
