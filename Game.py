@@ -50,6 +50,7 @@ class Game():
     def update(self):
 
         for i in range(len(self.towerList) ):
+        	self.towerList[i].findEnemy(self.enemyList)
         	self.towerList[i].update() 
         
         for i in range(len(self.enemyList) ):
