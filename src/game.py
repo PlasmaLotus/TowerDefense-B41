@@ -5,7 +5,6 @@ from lib.map import Map
 from niveau import *
 from creep import *
 
-
 class Joueur():
     def __init__(self, nom, score, ress, exp):
         self.nom = nom
@@ -28,7 +27,7 @@ class Game():
         self.enemyList=[]# liste d'enemies vivants dans le jeu
         self.towerList=[]# liste des tours actives
         #self.map=Map()
-        self.HP = 1 # vie du joueur?
+        self.hp = 1 # vie du joueur?
 
     
     #/ initialise le niveau et toutes ses composante ##    
@@ -40,8 +39,9 @@ class Game():
         self.hp=5
 
         ##Test##      
-        self.enemyList=[]  
-        self.enemyList.append(Creep())
+        self.enemyList=[]
+        path = self.map.get_path()  
+        self.enemyList.append(Creep(path))
         #self.enemyList[0].setPos(self.map.spawnPointX, self.map.spawnPointY)
     
     
@@ -49,6 +49,9 @@ class Game():
     def update(self):
         for i in self.enemyList:
             i.move()
+
+            if i.vie <= 0:
+                del i
         
         #if (self.hp <= 0):
             ##Gameover
