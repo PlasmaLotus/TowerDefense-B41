@@ -1,4 +1,6 @@
 #Créé Par Lee-Stenio
+import Point
+from Point import *
 
 class Path:
     def __init__(self, x, y, x2, y2, length):
@@ -15,6 +17,8 @@ class Path:
             return False
         
     def getStart(self):
-        return [self.startX, self.startY] 
+        return Point(self.startX, self.startY)
+        #return [self.startX, self.startY] 
     def getEnd(self):
-        return [self.endX, self.endY] 
+        return Point(self.endX, self.endY)
+        #return [self.endX, self.endY]

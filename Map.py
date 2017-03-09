@@ -12,10 +12,12 @@ class Map:
         self.length = 0
         self.pathList=[]
         
-    def getDtart(self):
+    def getStart(self):
+        #retourne le debut du premier segment
         return self.pathList[0].getStart()
     
     def getEnd(self):
+        #retourne la fin du dernier segment
         return self.pathList[-1].getEnd()
         
 ##Map  prédéfinie, Ligne droite au milieu##
@@ -25,4 +27,4 @@ class MapPreset1(Map):
         self.height = 800
         self.length = 600
         self.pathList=[]
-        self.pathList.append(Path(10, 300, 590, 300, 16));
+        self.pathList.append(Path(0, 300, 600, 300, 16));

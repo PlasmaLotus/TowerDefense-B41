@@ -22,7 +22,6 @@ class Niveau:
         else:
             return False
         
-        
     def getEnemy(self):
         enemy=self.nextEnemy
         self.nextEnemy+=1
