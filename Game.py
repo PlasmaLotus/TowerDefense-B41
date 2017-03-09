@@ -29,6 +29,7 @@ class Game():
         self.HP = 1 # vie du joueur?
         self.universalId = -1
         self.gold = 500
+        self.pathPointList=[]
 
     
     #/ initialise le niveau et toutes ses composante ##    
@@ -42,6 +43,8 @@ class Game():
         ##Test##     
         self.testInitEnemy()
         self.testInitTower()
+        self.pathPointsList = []
+
 
         #self.enemyList[0].setPos(self.map.spawnPointX, self.map.spawnPointY)
     
@@ -53,8 +56,8 @@ class Game():
         	self.towerList[i].update() 
         
         for i in range(len(self.enemyList) ):
-            ##self.enemyList[i].update()
-            enemyPos = [self.enemyList[i].x, self.enemyList[i].y]
+            self.enemyList[i].move()
+            enemyPos = [self.enemyList[i].pos.x, self.enemyList[i].pos.y]
             if (enemyPos == self.currentNiveau.map.getEnd()):
             	print("Enemy Breach")
             	self.hp-=1
@@ -81,12 +84,15 @@ class Game():
     	else:
     		return False
     		
+    		
 	#gère l'addition d'énemis dans le temps
     def handleEnemySpawn(self):
+    	##TODO:: tjrs pas fini
     	if (self.currentNiveau.hasEnemies(self.currentWave) == True):
     		if(self.currentNiveau.update() == True):
     			nextEnemy = self.currentNiveau.getNextEnemy(self.currentWave)
     			self.enemyList.append( nextEnemy )
+    
     
     #Trouver l'objet du jeu avec l'id correspondant
     def getConponent(self, id):
@@ -94,18 +100,26 @@ class Game():
     		if (self.towerList[i].getID() == id):
     			return self.towerList[i]
     		
+    		
     #Assigner un id à tous les creep et towers créé
     def getUniqueId(self):
     	self.universalId += 1
     	return self.universalId 
+    
+    ##afficher un rendu primitif de la map
     def showDebugMap(self):
     	for i in range( len(self.enemyList)):
-    		pos= [self.enemyList[i].x, self.enemyList[i].y]
-    		print("Enemy",i, ":", pos[0], "-", pos[1])
+    		pos= self.enemyList[i].pos
+    		print("Enemy",i, ":", pos.x, "-", pos.y)
+    
     def testInitTower(self):
     	self.towerList.append(Tower(self.getUniqueId()))
     	self.towerList.append(Tower(self.getUniqueId()))
     	self.towerList[0].setPos(10, 70)
     	self.towerList[1].setPos(10, 100)
+    
     def testInitEnemy(self):
-    	self.enemyList.append(Creep())
+    	self.enemyList.append(Creep(self.currentNiveau.map.pathPointList, 100, 10, 1))
+    	self.enemyList.append(Creep(self.currentNiveau.map.pathPointList, 75, 2, 2))
+    	self.enemyList.append(Creep(self.currentNiveau.map.pathPointList, 50, 10, 3))
+    	#BUG: Les creeps on 

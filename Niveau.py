@@ -41,4 +41,5 @@ class NiveauDebug(Niveau):
         #super()
         Niveau.__init__(self)
         self.map=MapPreset1()
+        #self.waves[0] = ["creep","creep","creep","creep","creep"]
         

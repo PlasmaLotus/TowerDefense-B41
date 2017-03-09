@@ -32,7 +32,7 @@ class Tower():
     def findEnemy(self, enemyList):
         for i in range(len(enemyList)):
             #de cette façon, le premier enemy sera choisi
-            pos=[enemyList[i].x, enemyList[i].y]
+            pos=[enemyList[i].pos.x, enemyList[i].pos.y]
             if (self.inRange( pos[0], pos[1] )):
                 #cet enlemy est dans le rayon
                 self.angle=Helper.calcAngle( self.x, self.y, pos[0], pos[1] )

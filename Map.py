@@ -11,6 +11,8 @@ class Map:
         self.height = 0
         self.length = 0
         self.pathList=[]
+        self.pathPointList=[]
+
         
     def getStart(self):
         #retourne le debut du premier segment
@@ -23,8 +25,13 @@ class Map:
 ##Map  prédéfinie, Ligne droite au milieu##
 class MapPreset1(Map):
     def __init__(self):
+        #TODO:Remove Path module
         Map.__init__(self)
         self.height = 800
         self.length = 600
         self.pathList=[]
         self.pathList.append(Path(0, 300, 600, 300, 16));
+        self.pathPointList=[]
+        self.pathPointList.append(self.getStart())
+        for i in range (len(self.pathList)):
+            self.pathPointList.append( self.pathList[i].getEnd() )
