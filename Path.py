@@ -1,6 +1,8 @@
 #Créé Par Lee-Stenio
-import Point
-from Point import *
+#import lib.Point
+import lib
+from lib import Point
+from lib.Point import *
 
 class Path:
     def __init__(self, x, y, x2, y2, length):

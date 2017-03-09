@@ -11,6 +11,7 @@ from Creep import *
 
 import Tower
 from Tower import *
+from _overlapped import NULL
 
 
 ## AKA "Modele" ## 
@@ -26,7 +27,8 @@ class Game():
         self.towerList=[]# liste des tours actives
         #self.map=Map()
         self.HP = 1 # vie du joueur?
-        self.universalId = 0
+        self.universalId = -1
+        self.gold = 500
 
     
     #/ initialise le niveau et toutes ses composante ##    
@@ -34,12 +36,10 @@ class Game():
         
         #self.NiveauHandler.getNiveau(self.niveauIt)
         self.currentNiveau=NiveauDebug()
-        self.map=self.currentNiveau.getMap()
         self.hp=5
-
-        ##Test##      
         self.enemyList=[]  
         self.towerList=[]
+        ##Test##     
         self.testInitEnemy()
         self.testInitTower()
 
@@ -48,43 +48,64 @@ class Game():
     
     ## Mise a jour du jeu (une fois par frame, probablement appelée par controlleur)##
     def update(self):
-
         for i in range(len(self.towerList) ):
         	self.towerList[i].findEnemy(self.enemyList)
         	self.towerList[i].update() 
         
         for i in range(len(self.enemyList) ):
-            self.enemyList[i].update()
+            ##self.enemyList[i].update()
             enemyPos = [self.enemyList[i].x, self.enemyList[i].y]
-            if (enemyPos == self.map.getEnd()):
+            if (enemyPos == self.currentNiveau.map.getEnd()):
             	print("Enemy Breach")
             	self.hp-=1
-            
-            
-        
-        self.testTower()
-        #if (self.hp <= 0):
-            ##Gameover
+          
+        #self.handleEnemySpawn()  
+
+        if (self.hp <= 0):
+            return False
             
         self.showDebugMap()
-    
-    ## Montre la map par ligne de commande ##
-    def showDebugMap(self):
-        for i in range( len(self.enemyList) ):
-        	pos= [self.enemyList[i].x, self.enemyList[i].y]
-        	print("Enemy ",i, " : ", pos[0], "-", pos[1] )
+        return True
 
-        	#print( "Enemy ",i, " : ", str(self.enemyList[i].x), " - ", str(self.enemyList[i].y) )
+    def createTower(self, towerType, x, y):
+    	towerPrice = 0
+    	newTower = Tower()
+    	#type de donnée de towerType a définir
+    	if (towerType == "Canon"):
+    		towerPrice = Canon.getPrice()
+    		newTower = Canon(self.getUniqueId(), x, y)
+    		
+    	if (self.gold >= towerPrice):
+    		self.towerList.append(newTower)
+    		return True
+    	else:
+    		return False
+    		
+	#gère l'addition d'énemis dans le temps
+    def handleEnemySpawn(self):
+    	if (self.currentNiveau.hasEnemies(self.currentWave) == True):
+    		if(self.currentNiveau.update() == True):
+    			nextEnemy = self.currentNiveau.getNextEnemy(self.currentWave)
+    			self.enemyList.append( nextEnemy )
     
+    #Trouver l'objet du jeu avec l'id correspondant
+    def getConponent(self, id):
+    	for i in range( len(self.towerList) ):
+    		if (self.towerList[i].getID() == id):
+    			return self.towerList[i]
+    		
+    #Assigner un id à tous les creep et towers créé
+    def getUniqueId(self):
+    	self.universalId += 1
+    	return self.universalId 
+    def showDebugMap(self):
+    	for i in range( len(self.enemyList)):
+    		pos= [self.enemyList[i].x, self.enemyList[i].y]
+    		print("Enemy",i, ":", pos[0], "-", pos[1])
     def testInitTower(self):
-    	self.towerList.append(Tower())
-    	self.towerList.append(Tower())
+    	self.towerList.append(Tower(self.getUniqueId()))
+    	self.towerList.append(Tower(self.getUniqueId()))
     	self.towerList[0].setPos(10, 70)
     	self.towerList[1].setPos(10, 100)
-    	
     def testInitEnemy(self):
     	self.enemyList.append(Creep())
-		
-    def testTower(self):
-    	for i in range( len(self.towerList) ):
-    		self.towerList[i].findEnemy(self.enemyList)

@@ -11,10 +11,9 @@ class Niveau:
         self.waves=[]
         self.nextEnemy=0
         self.spawnDelay=0#frames
-        self.maxSpawnDelay=60
+        self.maxSpawnDelay=100
         
-        
-    def spawnEnemy(self):
+    def update(self):
         self.spawnDelay+=1
         if (self.spawnDelay >= self.maxSpawnDelay):
             self.spawnDelay=0
@@ -22,13 +21,19 @@ class Niveau:
         else:
             return False
         
-    def getEnemy(self):
+    def getNextEnemy(self, wave):
+        ##TODO::
         enemy=self.nextEnemy
         self.nextEnemy+=1
-        return enemyList[enemy]
-    
-    def getMap(self):
-        return self.map
+        #return self.waves[wave][enemy]
+        return Creep()
+
+    def hasEnemies(self, wave):
+        ##TODO:
+        if (len(self.waves) > 0):
+            return True
+        else:
+            return False
     
     
 class NiveauDebug(Niveau):
