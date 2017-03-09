@@ -1,8 +1,9 @@
 import Map
 from Map import *
 
+#Créé Par Lee-Stenio
 
-#le Niveau contient une map et les waves du niveau 
+#le Niveau contient une map et les waves du niveau (liste d'enemies par wave)
 class Niveau:
     def __init__(self):
         self.map=Map()
@@ -34,5 +35,5 @@ class Niveau:
 class NiveauDebug(Niveau):
     def __init__(self):
         super()
-        self.Map=MapPreset1()
+        self.map=MapPreset1()
         

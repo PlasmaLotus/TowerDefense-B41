@@ -1,5 +1,7 @@
-import Tile
-from Tile import *
+#Créé Par Lee-Stenio
+
+import Path
+from Path import *
 
 #class Point:
 
@@ -8,25 +10,13 @@ class Map:
     def __init__(self):
         self.height = 0
         self.length = 0
-        self.tileList=[]
-        self.tileSizeX = 16
-        self.tileSizeY = 16
-        self.spawnPointX=0
-        self.spawnPointY=0
-        self.endPointX=0
-        seld.endPointY=0
-    
+        self.pathList=[]
         
-##Map  prédéfinie, Ligne droite au milieu
+##Map  prédéfinie, Ligne droite au milieu##
 class MapPreset1(Map):
     def __init__(self):
         super()
-        self.height = 11
-        self.length = 20
-        self.spawnPointX=0
-        self.spawnPointY=5
-        self.endPointX=0
-        seld.endPointX=11
-        self.tileList=[[Tile() for i in range(self.length)] for j in range(self.height)]
-        for i in range(self.length):
-            self.tileList[5][i].setPath(True)
+        self.height = 800
+        self.length = 600
+        self.pathList=[]
+        self.pathList.append(Path(10, 300, 590, 300, 16));
