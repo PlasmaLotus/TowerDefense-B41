@@ -121,15 +121,6 @@ class Vue():
      def validationTourCanon(self):
          pass  
         
-class Joueur():
-    def __init__(self, nom, score, ress, exp):
-        self.nom = nom
-        self.score = score
-        self.ress = ress #ressources
-        
-    def setRessource(self, ressource):
-        self.ress = ressource
-        
 # class Niveau():
 #     def __init__(self, nbVagues, nbCreeps, ressourceMin, boss):
 #         self.nbVagues = nbVagues

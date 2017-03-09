@@ -6,6 +6,14 @@ from niveau import *
 from creep import *
 
 
+class Joueur():
+    def __init__(self, nom, score, ress, exp):
+        self.nom = nom
+        self.score = score
+        self.ress = ress #ressources
+        
+    def setRessource(self, ressource):
+        self.ress = ressource
 
 ## AKA "Modele" ## 
 class Game():
@@ -27,7 +35,7 @@ class Game():
     def init(self):
         
         #self.NiveauHandler.getNiveau(self.niveauIt)
-        self.currentNiveau=NiveauDebug()
+        self.currentNiveau = NiveauDebug()
         self.map=self.currentNiveau.getMap()
         self.hp=5
 
@@ -39,8 +47,8 @@ class Game():
     
     ## Mise a jour du jeu (une fois par frame, probablement appelée par controlleur)##
     def update(self):
-        for i in range(len(self.enemyList) ):
-            self.enemyList[i].move()
+        for i in self.enemyList:
+            i.move()
         
         #if (self.hp <= 0):
             ##Gameover
@@ -49,9 +57,9 @@ class Game():
     
     ## Montre la map par ligne de commande ##
     def showDebugMap(self):
-        for i in range( len(self.enemyList) ):
-        	pos= [self.enemyList[i].x, self.enemyList[i].y]
-        	print("Enemy ",i, " : ", pos[0], "-", pos[1] )
+        for i in self.enemyList:
+        	pos= [i.x, i.y]
+        	print("Enemy ", i, " : ", pos[0], "-", pos[1] )
 
         	#print( "Enemy ",i, " : ", str(self.enemyList[i].x), " - ", str(self.enemyList[i].y) )
     

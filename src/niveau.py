@@ -24,8 +24,8 @@ class Niveau:
         
         
     def getEnemy(self):
-        enemy=self.nextEnemy
-        self.nextEnemy+=1
+        enemy = self.nextEnemy
+        self.nextEnemy += 1
         return enemyList[enemy]
     
     def getMap(self):
