@@ -29,8 +29,8 @@ class Creep():
 				self.pos.y += speed
 			elif self.pos.y > self.target.y:
 				self.pos.y -= speed
-		if self.pos.x == self.target.x and self.pos.y == self.target.y:
-			self.set_next_target()
+			if self.pos == self.target:
+				self.set_next_target()
 
 	def recevoir_dmg(self, dmg):
 		if self.vie > 0:
