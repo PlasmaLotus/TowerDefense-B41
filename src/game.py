@@ -1,69 +1,111 @@
-# coding: utf-8
+#Created Par Lee-Stenio
 
-#Cr�� Par Lee-Stenio
-from lib.map import Map
-from niveau import *
-from creep import *
+from niveau import Niveau, NiveauDebug
+from creep import Creep
+from tower import Tower
 
-class Joueur():
-    def __init__(self, nom, score, ress, exp):
-        self.nom = nom
-        self.score = score
-        self.ress = ress #ressources
-        
-    def setRessource(self, ressource):
-        self.ress = ressource
 
-## AKA "Modele" ## 
-class Game():
-	##Cr�e par Lee-Stenio
-    def __init__(self, w, h):
-        self.largeur = w
-        self.hauteur = h
-        self.currentNiveau=Niveau()
-        self.noCurrentNiveau=1 # valsur du niveau courrant
-        self.currentWave=1 # valsuer de la wave courrante
-        self.nbEnemies=0
-        self.enemyList=[]# liste d'enemies vivants dans le jeu
-        self.towerList=[]# liste des tours actives
-        #self.map=Map()
-        self.hp = 1 # vie du joueur?
+class Game(object):
+    '''le modele'''
+    def __init__(self):
+        self.current_niveau = Niveau()
+        #self.noCurrentNiveau = 1 # valeur du niveau courrant
+        self.current_wave = 1 # valeur de la wave courrante
+        self.creeps = []
+        self.towers = []
+        self.vie = 5
+        self.universal_id = -1
+        self.gold = 500
+        self.pathPointList = []
 
-    
-    #/ initialise le niveau et toutes ses composante ##    
+
+    #/ initialise le niveau et toutes ses composante ##
     def init(self):
-        
+
         #self.NiveauHandler.getNiveau(self.niveauIt)
-        self.currentNiveau = NiveauDebug()
-        self.map=self.currentNiveau.getMap()
-        self.hp=5
+        self.current_niveau = NiveauDebug()
+        self.vie = 5
+        self.creeps = []
+        self.towers = []
+        ##Test##
+        self.testInitEnemy()
+        self.testInitTower()
+        self.pathPointsList = []
 
-        ##Test##      
-        self.enemyList=[]
-        path = self.map.get_path()  
-        self.enemyList.append(Creep(path))
+
         #self.enemyList[0].setPos(self.map.spawnPointX, self.map.spawnPointY)
-    
-    
-    ## Mise a jour du jeu (une fois par frame, probablement appel�e par controlleur)##
+
+
+    ## Mise a jour du jeu (une fois par frame, probablement appelée par controlleur)##
     def update(self):
-        for i in self.enemyList:
-            i.move()
+        for tower in self.towers:
+            tower.findEnemy(self.creeps)
+            tower.update()
 
-            if i.vie <= 0:
-                del i
-        
-        #if (self.hp <= 0):
-            ##Gameover
-            
+        for creep in self.creeps:
+            creep.move()
+            if creep.pos == self.current_niveau.map.getEnd():
+                print("Enemy Breach")
+                self.vie -= 1
+
+        #self.handleEnemySpawn()
+
+        if self.vie <= 0:
+            return False
+
         self.showDebugMap()
-    
-    ## Montre la map par ligne de commande ##
-    def showDebugMap(self):
-        for i in self.enemyList:
-        	pos= [i.x, i.y]
-        	print("Enemy ", i, " : ", pos[0], "-", pos[1] )
+        return True
 
-        	#print( "Enemy ",i, " : ", str(self.enemyList[i].x), " - ", str(self.enemyList[i].y) )
-    
-    
+    def create_tower(self, towerType, x, y):
+        towerPrice = 0
+        newTower = Tower()
+        #type de donnée de towerType a définir
+        if (towerType == "Canon"):
+            towerPrice = Canon.getPrice()
+            newTower = Canon(self.getUniqueId(), x, y)
+
+        if self.gold >= towerPrice:
+            self.towers.append(newTower)
+            return True
+        else:
+            return False
+
+
+    #gère l'addition d'énemis dans le temps
+    def handleEnemySpawn(self):
+        ##TODO:: tjrs pas fini
+        if self.current_niveau.hasEnemies(self.current_wave):
+            if self.current_niveau.update():
+                nextEnemy = self.current_niveau.getNextEnemy(self.current_wave)
+                self.creeps.append(nextEnemy)
+
+
+    #Trouver l'objet du jeu avec l'id correspondant
+    def get_component(self, id):
+        for tower in self.towers:
+            if tower.getID() == id:
+                return tower
+
+
+    #Assigner un id à tous les creep et towers créé
+    def getUniqueId(self):
+        self.universalId += 1
+        return self.universalId
+
+    ##afficher un rendu primitif de la map
+    def showDebugMap(self):
+        for creep in self.creeps:
+            pos = creep.pos
+            print("Enemy", creep, ":", pos.x, "-", pos.y)
+
+    def testInitTower(self):
+        self.towerList.append(Tower(self.getUniqueId()))
+        self.towerList.append(Tower(self.getUniqueId()))
+        self.towerList[0].setPos(10, 70)
+        self.towerList[1].setPos(10, 100)
+
+    def testInitEnemy(self):
+        self.enemyList.append(Creep(self.currentNiveau.map.pathPointList, 100, 10, 1))
+        self.enemyList.append(Creep(self.currentNiveau.map.pathPointList, 75, 2, 2))
+        self.enemyList.append(Creep(self.currentNiveau.map.pathPointList, 50, 10, 3))
+        #BUG: Les creeps on
