@@ -1,80 +1,64 @@
-#Cr�� par Lee-Stenio
-#from tkinter.test.support import pixels_conv
+#Cree par Lee-Stenio
 
-from lib.helper import Helper
+#from lib.helper import Helper
 from lib.point import Point
 
 class Tower():
-    def __init__(self, id):
-        self.x=0
-        self.y=0#centre
-        self.sizeRadius = 8#pixels
-        self.atkDelay=0
-        self.atkSpeed=10#nb de frames avant de pouvoir retirer
-        self.atkPower=1
-        self.range=100#pixels
+    id = 1
+    def __init__(self):
+        self.pos = Point(0, 0)
+        self.size_radius = 8 #pixels
+        self.atk_delay = 0
+        self.atk_speed = 10 #nb de frames avant de pouvoir retirer
+        self.atk_power = 1
+        self.range = 100 #pixels
         self.angle = 0 #purement cosmetique pour l'instant
-        self.canShoot=False
-        self.price= 100
-        self.uniqueId = id
-        
+        self.can_shoot = False
+        self.price = 100
+        self.id = Tower.id
+        Tower.id += 1
+
     #rafraichi le cooldown de ses attaques
     def update(self):
-        if (self.canShoot == False):
-            self.atkDelay-=1
-            if (self.atkDelay <= 0):
-                self.canShoot=True
-                self.atkDelay = self.atkSpeed
-    
-    def findEnemy(self, enemyList):
-        for i in range(len(enemyList)):
-            #de cette fa�on, le premier enemy sera choisi
-            pos=[enemyList[i].pos.x, enemyList[i].pos.y]
-            if (self.inRange( pos[0], pos[1] )):
-                #cet enlemy est dans le rayon
-                self.angle=Helper.calcAngle( self.x, self.y, pos[0], pos[1] )
-                self.shoot( enemyList[i] )
+        if not self.can_shoot:
+            self.atk_delay -= 1
+            if self.atk_delay <= 0:
+                self.can_shoot = True
+                self.atk_delay = self.atk_speed
+
+    def find_enemy(self, creeps):
+        for creep in creeps:
+            #de cette facon, le premier enemy sera choisi
+            if self.in_range(creep.pos):
+                #cet enemy est dans le rayon
+                #self.angle = Helper.angle(self.pos, creep.pos)
+                self.angle = self.pos.angle(creep.pos)
+                self.shoot(creep)
                 break
-            
-            
-    def inRange(self,x2, y2):
-        dist=Helper.calcDistance(self.x, self.y, x2, y2)
-        if dist <= self.range:
-            #print("col detected")
-            return True
-        else:
-            #print("col not detected")
-            return False
+
+
+    def in_range(self, pos):
+        #dist = Helper.distance(self.pos, pos)
+        return True if self.pos.distance(pos) <= self.range else False
 
     #tente d'attaquer un enemy
     def shoot(self, enemy):
-        if (self.canShoot == True):
+        if self.can_shoot:
             #enemy.hp -= self.atkPower
             print("Tower shot")
-            self.canShoot = False
-    
-    def setPos(self, x, y):
-        self.x=x
-        self.y=y
+            self.can_shoot = False
 
-    def getPos(self):
-        #pos= tow.getPos()
-        #x = pos[0], y = pos[1]
-        return Point(self.x, self.y)
-        #return [self.x, self.y]
-
-    def getRefundPrice(self):
+    def get_refund_price(self):
         return self.price/2
-    
-        
+
+#classe inutile
 class Canon(Tower):
-    def __init__(self, id, x, y):
-        Tower.__init__(self, id)
+    def __init__(self, id):
+        #Tower.__init__(self, id)
         #balance numbers here
-        self.atkPower = 50
-        self.atkSpeed= 20
-        self.range=90
+        self.atk_power = 50
+        self.atk_speed = 20
+        self.range = 90
         self.price = 150
-        self.setPos(x, y)
-        
-        
+
+
