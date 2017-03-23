@@ -7,7 +7,6 @@ class Tower():
     id = 1
     def __init__(self):
         self.pos = Point(0, 0)
-        self.size_radius = 8 #pixels
         self.atk_delay = 0
         self.atk_speed = 10 #nb de frames avant de pouvoir retirer
         self.atk_power = 1
@@ -58,7 +57,7 @@ class Canon(Tower):
         Tower.__init__(self)
         #balance numbers here
         self.atk_power = 50
-        self.atk_speed = 20
+        self.atk_speed = 10
         self.range = 90
         self.price = 150
 

@@ -9,7 +9,7 @@ from _overlapped import NULL
 class Game(object):
     '''le modele'''
     def __init__(self, height, width):
-        self.current_niveau = Niveau()
+        self.current_niveau = NiveauDebug()
         #self.noCurrentNiveau = 1 # valeur du niveau courrant
         self.current_wave = 1 # valeur de la wave courrante
         self.creeps = []
@@ -17,7 +17,7 @@ class Game(object):
         self.vie = 5
         self.universal_id = -1
         self.gold = 500
-        self.pathPointList = []
+        #self.pathPointList = []
         self.largeur = width
         self.hauteur = height
         self.universal_id = -1
@@ -28,14 +28,16 @@ class Game(object):
     def init(self):
 
         #self.NiveauHandler.getNiveau(self.niveauIt)
-        self.current_niveau = NiveauDebug()
-        self.vie = 5
+        #self.current_niveau = NiveauDebug()
+        self.current_wave = self.current_niveau.wave
+        print("Wave:",self.current_wave)
+        self.vie = 35
         self.creeps = []
         self.towers = []
         ##Test##
         #self.testInitEnemy()
         self.testInitTower()
-        self.pathPointsList = []
+        #self.pathPointsList = []
 
 
         #self.enemyList[0].setPos(self.map.spawnPointX, self.map.spawnPointY)
@@ -49,16 +51,23 @@ class Game(object):
 
         for creep in self.creeps:
             creep.move()
+            #if creep.vie<= 0:
+                #creep.remove(creep)
             if creep.pos == self.current_niveau.map.getEnd():
                 print("Enemy Breach")
                 self.vie -= 1
               
         #Supprimer le creep qui a fini        
         for i in reversed( range (len(self.creeps))):
-            if self.creeps[i].pos == self.current_niveau.map.getEnd():
+            if self.creeps[i].vie <= 0:
                 self.creeps.remove(self.creeps[i])
-                
+            elif self.creeps[i].pos == self.current_niveau.map.getEnd():
+                self.creeps.remove(self.creeps[i])
+            elif self.creeps[i].pos.x >= self.current_niveau.map.getEnd().x and self.creeps[i].pos.y >= self.current_niveau.map.getEnd().y: 
+                self.creeps.remove(self.creeps[i])
+                #si la position du creep est plus loin que la position finale
 
+        
         self.handleEnemySpawn()
         #print ("Vie: ", self.vie)
         if self.vie <= 0:
@@ -104,7 +113,10 @@ class Game(object):
                 nextEnemy = self.current_niveau.getNextEnemy(self.current_wave)
                 if nextEnemy != NULL:
                     self.creeps.append(nextEnemy)
-
+        else:
+            if (len(self.creeps) <= 0):
+                self.current_niveau.nextWave()
+                self.init()
 
     #Trouver l'objet du jeu avec l'id correspondant
     def get_component(self, id):

@@ -49,8 +49,9 @@ class Controleur():
          
     
     def update(self):
-        self.modele.update()
+        gameOver = self.modele.update()
         self.vue.root.after(32,self.update)
+        #if (gameOver):  
 
 if __name__ == '__main__':
     c = Controleur()
