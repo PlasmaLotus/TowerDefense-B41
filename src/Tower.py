@@ -45,6 +45,7 @@ class Tower():
     def shoot(self, enemy):
         if self.can_shoot:
             #enemy.hp -= self.atkPower
+            enemy.vie -= self.atk_power
             print("Tower shot")
             self.can_shoot = False
 

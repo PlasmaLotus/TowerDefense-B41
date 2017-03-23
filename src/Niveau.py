@@ -1,6 +1,8 @@
 import Map
 from Map import *
 
+from Creep import *
+
 #Créé Par Lee-Stenio
 
 #le Niveau contient une map et les waves du niveau (liste d'enemies par wave)
@@ -9,9 +11,12 @@ class Niveau:
         self.map=Map()
         #self.enemyList=[]
         self.waves=[]
-        self.nextEnemy=0
+        self.nbEnemies = 5
         self.spawnDelay=0#frames
-        self.maxSpawnDelay=100
+        self.maxSpawnDelay=50
+        self.creepHP = 100
+        self.creepSpeed = 20
+        
         
     def update(self):
         self.spawnDelay+=1
@@ -22,15 +27,13 @@ class Niveau:
             return False
         
     def getNextEnemy(self, wave):
-        ##TODO::
-        enemy=self.nextEnemy
-        self.nextEnemy+=1
+        self.nbEnemies-=1
         #return self.waves[wave][enemy]
-        return Creep()
+        return Creep(self.map.pathPointList, self.creepHP, self.creepSpeed)
 
     def hasEnemies(self, wave):
         ##TODO:
-        if (len(self.waves) > 0):
+        if (self.nbEnemies > 0):
             return True
         else:
             return False

@@ -3,6 +3,7 @@
 from Niveau import Niveau, NiveauDebug
 from Creep import Creep
 from Tower import *
+from _overlapped import NULL
 
 
 class Game(object):
@@ -32,7 +33,7 @@ class Game(object):
         self.creeps = []
         self.towers = []
         ##Test##
-        self.testInitEnemy()
+        #self.testInitEnemy()
         self.testInitTower()
         self.pathPointsList = []
 
@@ -53,12 +54,12 @@ class Game(object):
                 self.vie -= 1
               
         #Supprimer le creep qui a fini        
-        for i in range (len(self.creeps)):
+        for i in reversed( range (len(self.creeps))):
             if self.creeps[i].pos == self.current_niveau.map.getEnd():
                 self.creeps.remove(self.creeps[i])
                 
 
-        #self.handleEnemySpawn()
+        self.handleEnemySpawn()
         #print ("Vie: ", self.vie)
         if self.vie <= 0:
             print("Game over")
@@ -101,7 +102,8 @@ class Game(object):
         if self.current_niveau.hasEnemies(self.current_wave):
             if self.current_niveau.update():
                 nextEnemy = self.current_niveau.getNextEnemy(self.current_wave)
-                self.creeps.append(nextEnemy)
+                if nextEnemy != NULL:
+                    self.creeps.append(nextEnemy)
 
 
     #Trouver l'objet du jeu avec l'id correspondant
@@ -118,18 +120,18 @@ class Game(object):
 
     ##afficher un rendu primitif de la map
     def showDebugMap(self):
-        print(len(self.creeps))
+        #print(len(self.creeps))
         for creep in self.creeps:
             pos = creep.pos
-            print("Enemy", creep, ":", pos.x, "-", pos.y)
+            print("Enemy", creep, ":", pos.x, "-", pos.y, "HP:", creep.vie)
 
     def testInitTower(self):
         self.towers.append(Canon(self.getUniqueId()))
         #self.towers.append(Tower(self.getUniqueId()))
         self.towers.append(Canon(self.getUniqueId()))
         #self.towers.append(Tower(self.getUniqueId()))
-        self.towers[0].pos.x = 10
-        self.towers[0].pos.y = 70
+        self.towers[0].pos.x = 200
+        self.towers[0].pos.y = 400
         #self.towers[1].setPos(50, 100)
 
     def testInitEnemy(self):

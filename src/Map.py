@@ -11,7 +11,7 @@ class Map:
         self.height = 0
         self.length = 0
         self.pathSize = 10
-        #self.pathList=[]
+            
         self.pathPointList=[]
         
     def getStart(self):
@@ -29,9 +29,8 @@ class MapPreset1(Map):
         Map.__init__(self)
         self.height = 800
         self.length = 600
-        #self.pathList=[]
         #self.pathList.append(Path(0, 300, 600, 300, 16));
         self.pathPointList=[]
-        self.pathPointList.append(Point(0,300))
-        self.pathPointList.append(Point(600,300))
+        self.pathPointList.append(Point(0,400))
+        self.pathPointList.append(Point(600,400))
         self.pathSize = 16
