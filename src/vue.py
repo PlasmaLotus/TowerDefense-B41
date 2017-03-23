@@ -164,7 +164,7 @@ class Vue():
          self.canevas.create_image(x, y, image = self.imgTourArcher, tags = ("TourArcher"))#ajouter tags
      
      def affichageCreep(self):
-         self.canevas.delete('creep')
+         self.canevas.delete('creeps')
 
          for creep in self.parent.modele.creeps:
              pos = creep.pos
