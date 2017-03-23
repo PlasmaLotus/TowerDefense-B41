@@ -31,7 +31,7 @@ class Game(object):
         #self.current_niveau = NiveauDebug()
         self.current_wave = self.current_niveau.wave
         print("Wave:",self.current_wave)
-        self.vie = 35
+        self.vie = 5
         self.creeps = []
         self.towers = []
         ##Test##
@@ -143,7 +143,9 @@ class Game(object):
         self.towers.append(Canon(self.getUniqueId()))
         #self.towers.append(Tower(self.getUniqueId()))
         self.towers[0].pos.x = 200
-        self.towers[0].pos.y = 400
+        self.towers[0].pos.y = 390
+        self.towers[1].pos.x = 500
+        self.towers[1].pos.y = 500
         #self.towers[1].setPos(50, 100)
 
     def testInitEnemy(self):

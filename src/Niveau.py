@@ -31,12 +31,12 @@ class Niveau:
         else:
             return False
         
-    def getNextEnemy(self, wave):
+    def getNextEnemy(self):
         self.nbEnemies-=1
         #return self.waves[wave][enemy]
         return Creep(self.map.pathPointList, self.creepHP, self.creepSpeed)
 
-    def hasEnemies(self, wave):
+    def hasEnemies(self):
         ##TODO:
         if (self.nbEnemies > 0):
             return True
@@ -48,8 +48,9 @@ class Niveau:
         self.spawnDelay = 0
 
     def nextWave(self):
-        self.reset()
         self.wave+= 1
+        self.baseNbEnemies+=1
+        self.reset()
         self.creepHP+= self.creepHPScaling
         self.creepSpeed+= self.creepSpeedScaling
         
@@ -58,6 +59,7 @@ class Niveau:
             self.maxSpawnDelay -= 2
             if self.maxSpawnDelay < self.minSpawnDelay:
                 self.maxSpawnDelay = self.minSpawnDelay
+        #Pour l'instant il n'y a qu'un seul niveau
         #print("NextWave")
         
     
@@ -69,7 +71,7 @@ class NiveauDebug(Niveau):
         self.creepHP = 100
         self.creepSpeed = 7
         self.nbEnemies = 5
-        self.baseNbEnemies = 15
+        self.baseNbEnemies = 5
         self.creepHPScaling = 10
         self.creepSpeedScaling = 1
         #self.waves[0] = ["creep","creep","creep","creep","creep"]
