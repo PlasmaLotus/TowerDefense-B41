@@ -165,7 +165,7 @@ class Vue():
          #self.chemin = chemin
          i = 0
          while i < len(chemin)-1:
-             self.canevas.create_rectangle(chemin[i].x,chemin[i].y-50,chemin[i+1].x,chemin[i+1].y+50, width = 2, fill = "green", outline = "black" )
+             self.canevas.create_rectangle(chemin[i].x,chemin[i].y-50,chemin[i+1].x,chemin[i+1].y+50, width = 2, fill = "green", outline = "black", tags = ("chemin") )
              i+=1
 
 class Joueur():
