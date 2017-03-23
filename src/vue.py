@@ -145,7 +145,7 @@ class Vue():
      def afficheModele(self, mod):    
         self.mod = mod
         #afficher les différentes tours
-        self.affichageTour()
+        #self.affichageTour()
          
      def gererClickGauche(self, evt):
          x= evt.x
@@ -159,18 +159,8 @@ class Vue():
          else:
              pass
      
-     def affichageTour(self):
-         i= 0
-         #print(self.parent.modele.towers)
-         while i < len(self.parent.modele.towers):
-             x = self.parent.modele.towers[i].x
-             y = self.parent.modele.towers[i].y
-             #print("""Lis le commentaire de cette ligne") # tu as oublie d'enlever la tour de towers,
-                      #fait que tu es pris dans ce while pour toujours...
-                      #decommente la prochaine ligne pour que ça fonctionne (mais je suis pas sur que c'est ca que tu veux""")
-             self.parent.modele.towers.pop()
-             #test pour afficher seulement les tours d'archer... ensuite faire instanceof??
-             self.canevas.create_image(x, y, image = self.imgTourArcher)        
+     def affichageTourArcher(self, x, y):
+         self.canevas.create_image(x, y, image = self.imgTourArcher, tags = ("TourArcher"))#ajouter tags   
         
 class Joueur():
     def __init__(self, nom, score, ress, exp):

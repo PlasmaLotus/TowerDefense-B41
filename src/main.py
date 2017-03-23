@@ -13,7 +13,7 @@ class Controleur():
         self.nouvelleTourCanon = False
         
         self.vue.afficheModele(self.modele)
-        self.vue.root.after(32,self.update)
+        self.vue.root.after(32,self.update)##debut du loop de mise a jour
         self.vue.root.mainloop() 
         
     def validationTourBombe(self,x,y):
@@ -47,6 +47,7 @@ class Controleur():
          self.vue.root.config(cursor='hand2')
          self.nouvelleTourCanon = True
          
+    
     def update(self):
         self.modele.update()
         self.vue.root.after(32,self.update)

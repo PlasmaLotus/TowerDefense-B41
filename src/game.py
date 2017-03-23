@@ -2,7 +2,7 @@
 
 from Niveau import Niveau, NiveauDebug
 from Creep import Creep
-from Tower import Tower
+from Tower import *
 
 
 class Game(object):
@@ -43,7 +43,7 @@ class Game(object):
     ## Mise a jour du jeu (une fois par frame, probablement appelée par controlleur)##
     def update(self):
         for tower in self.towers:
-            tower.findEnemy(self.creeps)
+            tower.find_enemy(self.creeps)
             tower.update()
 
         for creep in self.creeps:
@@ -51,7 +51,8 @@ class Game(object):
             if creep.pos == self.current_niveau.map.getEnd():
                 print("Enemy Breach")
                 self.vie -= 1
-                
+              
+        #Supprimer le creep qui a fini        
         for i in range (len(self.creeps)):
             if self.creeps[i].pos == self.current_niveau.map.getEnd():
                 self.creeps.remove(self.creeps[i])
@@ -123,22 +124,15 @@ class Game(object):
             print("Enemy", creep, ":", pos.x, "-", pos.y)
 
     def testInitTower(self):
-        self.towers.append(Tower(self.getUniqueId()))
-        self.towers.append(Tower(self.getUniqueId()))
-        self.towers[0].setPos(10, 70)
-        self.towers[1].setPos(50, 100)
+        self.towers.append(Canon(self.getUniqueId()))
+        #self.towers.append(Tower(self.getUniqueId()))
+        self.towers.append(Canon(self.getUniqueId()))
+        #self.towers.append(Tower(self.getUniqueId()))
+        self.towers[0].pos.x = 10
+        self.towers[0].pos.y = 70
+        #self.towers[1].setPos(50, 100)
 
     def testInitEnemy(self):
-        #creep = Creep(self.current_niveau.map.pathPointList, 100, 10)
-        #self.creeps.append(creep)
-        #creep = Creep(self.current_niveau.map.pathPointList, 75, 40)
-        #self.creeps.append(creep)
-        #creep = Creep(self.current_niveau.map.pathPointList, 50, 50)
-        #self.creeps.append(creep)
-        #creep = Creep(self.current_niveau.map.pathPointList, 50, 20)
-        #self.creeps.append(creep)
-        #creep = Creep(self.current_niveau.map.pathPointList, 50, 30)
-        #self.creeps.append(creep)
         
         self.creeps.append(Creep(self.current_niveau.map.pathPointList, 100, 10))
         self.creeps.append(Creep(self.current_niveau.map.pathPointList, 70, 20))
@@ -146,6 +140,3 @@ class Game(object):
         self.creeps.append(Creep(self.current_niveau.map.pathPointList, 25, 40))
         self.creeps.append(Creep(self.current_niveau.map.pathPointList, 1, 50))
         
-        
-        
-        #BUG: Les creeps on
