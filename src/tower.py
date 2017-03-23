@@ -1,21 +1,22 @@
 #Cree par Lee-Stenio
 
-#from lib.helper import Helper
 from lib.point import Point
 
 class Tower():
     id = 1
-    def __init__(self, x, y):
+
+    def __init__(self, x, y, speed=10, dmg=1, _range=100, price=100):
         self.pos = Point(x, y)
-        self.size_radius = 8 #pixels
-        self.atk_delay = 0
-        self.atk_speed = 10 #nb de frames avant de pouvoir retirer
-        self.atk_power = 1
-        self.range = 100 #pixels
+        self.price = price
+        self.atk_speed = speed #nb de frames avant de pouvoir retirer
+        self.atk_power = dmg
+
+        self.range = _range #pixels
         self.angle = 0 #purement cosmetique pour l'instant
         self.can_shoot = False
-        self.price = 100
+        self.atk_delay = 0
         self.id = Tower.id
+
         Tower.id += 1
 
     #rafraichi le cooldown de ses attaques
@@ -31,15 +32,14 @@ class Tower():
             #de cette facon, le premier enemy sera choisi
             if self.in_range(creep.pos):
                 #cet enemy est dans le rayon
-                #self.angle = Helper.angle(self.pos, creep.pos)
                 self.angle = self.pos.angle(creep.pos)
                 self.shoot(creep)
                 break
 
 
     def in_range(self, pos):
-        #dist = Helper.distance(self.pos, pos)
-        return True if self.pos.distance(pos) <= self.range else False
+        dist = self.pos.distance(pos)
+        return True if dist <= self.range else False
 
     #tente d'attaquer un enemy
     def shoot(self, creep):
@@ -50,15 +50,3 @@ class Tower():
 
     def get_refund_price(self):
         return self.price/2
-
-#classe inutile
-class Canon(Tower):
-    def __init__(self, id):
-        #Tower.__init__(self, id)
-        #balance numbers here
-        self.atk_power = 50
-        self.atk_speed = 20
-        self.range = 90
-        self.price = 150
-
-

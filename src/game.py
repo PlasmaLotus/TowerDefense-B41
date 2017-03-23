@@ -36,6 +36,7 @@ class Game(object):
 
             creep.move()
             if creep.pos == self.current_niveau.map.getEnd():
+                self.creeps.remove(creep)
                 print("Enemy Breach")
                 self.vie -= 1
 
