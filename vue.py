@@ -2,7 +2,6 @@
 
 from tkinter import *
 
-
 #Classe de la VUE
 class Vue():
      def __init__(self, parent, largeur, hauteur): #Parent = modele
@@ -33,11 +32,11 @@ class Vue():
         btn1.grid(row=1, column = 0, padx = 10, pady = 10)
         
         #Bouton2 pour la tour de bombe
-        btn2 = Button(self.cadbtn,image =self.imgTourBombe, height = 75, width = 75, command=self.parent.initialisationTourBombe)
+        btn2 = Button(self.cadbtn,image =self.imgTourBombe, height = 75, width = 75)#''', command=self.parent.initialisationTourBombe''')
         btn2.grid(row=1, column = 1, padx = 10, pady = 10)
         
         #Bouton3 pour la tour de canon
-        btn3 = Button(self.cadbtn,image = self.imgTourCanon, height = 75, width = 75, command=self.parent.initialisationTourCanon)
+        btn3 = Button(self.cadbtn,image = self.imgTourCanon, height = 75, width = 75)#''', command=self.parent.initialisationTourCanon''')
         btn3.grid(row=2, column = 0, padx = 10, pady = 10)
         
         #texte et textbox pour le nombre de creep
