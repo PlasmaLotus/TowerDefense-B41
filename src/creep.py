@@ -1,3 +1,4 @@
+from lib.point import Point
 
 class Creep(object):
     '''creep qui se deplace'''
