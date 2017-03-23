@@ -6,6 +6,8 @@ Jeu de Tower Defense dans le cadre du cours B41
 - Lee-Stenio Nazer
 - Zénon Roy
 
+PARTIR LE PROGRAMME À PARTIR DE SRC/
+fichier de départ : src/main.py
 ## Ce qui fonctionne
 - placer des tours (juste un type)
 - les ennemis se déplacent
