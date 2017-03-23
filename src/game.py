@@ -57,15 +57,16 @@ class Game(object):
                 print("Enemy Breach")
                 self.vie -= 1
               
-        #Supprimer le creep qui a fini        
+        #Supprimer le creep qui ont fini, en reverse pour ne pas aller hors des bornes du tableau
         for i in reversed( range (len(self.creeps))):
             if self.creeps[i].vie <= 0:
                 self.creeps.remove(self.creeps[i])
-            elif self.creeps[i].pos == self.current_niveau.map.getEnd():
-                self.creeps.remove(self.creeps[i])
+            #elif self.creeps[i].pos == self.current_niveau.map.getEnd():
+                #self.creeps.remove(self.creeps[i])
             elif self.creeps[i].pos.x >= self.current_niveau.map.getEnd().x and self.creeps[i].pos.y >= self.current_niveau.map.getEnd().y: 
                 self.creeps.remove(self.creeps[i])
                 #si la position du creep est plus loin que la position finale
+                #car si le creep n'a pas exactement la position de fin, il ne sera jamais enlev�
 
         
         self.handleEnemySpawn()
@@ -108,9 +109,9 @@ class Game(object):
     #gère l'addition d'énemis dans le temps
     def handleEnemySpawn(self):
         ##TODO:: tjrs pas fini
-        if self.current_niveau.hasEnemies(self.current_wave):
+        if self.current_niveau.hasEnemies():
             if self.current_niveau.update():
-                nextEnemy = self.current_niveau.getNextEnemy(self.current_wave)
+                nextEnemy = self.current_niveau.getNextEnemy()
                 if nextEnemy != NULL:
                     self.creeps.append(nextEnemy)
         else:

@@ -145,6 +145,8 @@ class Vue():
      def afficheModele(self, mod):    
         self.mod = mod
         #afficher les différentes tours
+        for tower in self.mod.towers:
+            self.affichageTourArcher(tower.pos.x, tower.pos.y)
         #self.affichageTour()
          
      def gererClickGauche(self, evt):
