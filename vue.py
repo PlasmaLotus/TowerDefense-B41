@@ -15,6 +15,7 @@ class Vue():
         self.imgTourArcher = PhotoImage(file = "icones/tour_archer.png")
         self.imgTourBombe = PhotoImage(file = "icones/tour_bombe.png")
         self.imgTourCanon = PhotoImage(file = "icones/tour_canon.png")
+        self.imgCreep = PhotoImage(file = "icones/creep.png")
         
         self.root.title("Mon premier Tkinter")
         
@@ -140,6 +141,8 @@ class Vue():
     
      def afficheModele(self, mod):    
         self.mod = mod
+        self.canevas.delete("Creep")
+        
         
          
      def gererClickGauche(self, evt):
@@ -158,6 +161,12 @@ class Vue():
          self.canevas.create_image(x, y, image = self.imgTourArcher, tags = ("TourArcher"))#ajouter tags
         
         
+     def afficherChemin(self, chemin):
+         #self.chemin = chemin
+         i = 0
+         while i < len(chemin)-1:
+             self.canevas.create_rectangle(chemin[i].x,chemin[i].y-50,chemin[i+1].x,chemin[i+1].y+50, width = 2, fill = "green", outline = "black" )
+             i+=1
 
 class Joueur():
     def __init__(self, nom, score, ress, exp):
