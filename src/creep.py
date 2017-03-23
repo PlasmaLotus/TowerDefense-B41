@@ -6,7 +6,8 @@ class Creep(object):
         self.vie = vie
         self.speed = speed #vitesse en pixel/update
         self.chemin = iter(chemin)
-        self.pos = next(self.chemin) #depart
+        pos = next(self.chemin) #depart
+        self.pos = Point(pos.x, pos.y)
         self.target = self.set_next_target() #trouver la cible
 
     def set_next_target(self):

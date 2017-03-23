@@ -5,8 +5,8 @@ from lib.point import Point
 
 class Tower():
     id = 1
-    def __init__(self):
-        self.pos = Point(0, 0)
+    def __init__(self, x, y):
+        self.pos = Point(x, y)
         self.size_radius = 8 #pixels
         self.atk_delay = 0
         self.atk_speed = 10 #nb de frames avant de pouvoir retirer
@@ -42,9 +42,9 @@ class Tower():
         return True if self.pos.distance(pos) <= self.range else False
 
     #tente d'attaquer un enemy
-    def shoot(self, enemy):
+    def shoot(self, creep):
         if self.can_shoot:
-            #enemy.hp -= self.atkPower
+            creep.recevoir_dmg(self.atk_power)
             print("Tower shot")
             self.can_shoot = False
 

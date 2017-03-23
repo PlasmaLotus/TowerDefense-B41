@@ -15,7 +15,7 @@ class Point():
         x = (math.cos(angle) * longueur) + cx
         y = (math.sin(angle) * longueur) + cy
 
-        return (x, y)
+        return Point(x, y)
 
     def angle(self, pos):
         dx = pos.x - self.x
