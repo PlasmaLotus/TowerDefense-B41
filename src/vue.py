@@ -2,7 +2,6 @@
 
 from tkinter import *
 
-
 #Classe de la VUE
 class Vue():
      def __init__(self, parent, largeur, hauteur): #Parent = modele
@@ -11,15 +10,11 @@ class Vue():
         self.parent = parent
         self.root=Tk()
         
-        #self.nouvelleTourArcher = False
-        #self.nouvelleTourBombe = False
-        #self.nouvelleTourCanon = False
-        
         #initialisation des images 
         self.imgTourArcher = PhotoImage(file = "icones/tour_archer.png")
         self.imgTourBombe = PhotoImage(file = "icones/tour_bombe.png")
         self.imgTourCanon = PhotoImage(file = "icones/tour_canon.png")
-        self.imgTourCreep = PhotoImage(file = "icones/etoile_rempli.png")
+        self.imgCreep = PhotoImage(file = "icones/creep.png")
         
         self.root.title("Mon premier Tkinter")
         
@@ -37,11 +32,11 @@ class Vue():
         btn1.grid(row=1, column = 0, padx = 10, pady = 10)
         
         #Bouton2 pour la tour de bombe
-        btn2 = Button(self.cadbtn,image =self.imgTourBombe, height = 75, width = 75, command=self.parent.initialisationTourBombe)
+        btn2 = Button(self.cadbtn,image =self.imgTourBombe, height = 75, width = 75)#''', command=self.parent.initialisationTourBombe''')
         btn2.grid(row=1, column = 1, padx = 10, pady = 10)
         
         #Bouton3 pour la tour de canon
-        btn3 = Button(self.cadbtn,image = self.imgTourCanon, height = 75, width = 75, command=self.parent.initialisationTourCanon)
+        btn3 = Button(self.cadbtn,image = self.imgTourCanon, height = 75, width = 75)#''', command=self.parent.initialisationTourCanon''')
         btn3.grid(row=2, column = 0, padx = 10, pady = 10)
         
         #texte et textbox pour le nombre de creep
@@ -145,12 +140,13 @@ class Vue():
     
      def afficheModele(self, mod):    
         self.mod = mod
-        #afficher les différentes tours
-        #self.affichageTourArcher()
+        
+        self.afficherChemin(mod.current_niveau.map.pathPointList)
+        
          
      def gererClickGauche(self, evt):
-         x = evt.x
-         y = evt.y
+         x= evt.x
+         y=evt.y
          if self.parent.nouvelleTourBombe:
              self.parent.validationTourBombe(x,y)
          elif self.parent.nouvelleTourArcher:
@@ -159,17 +155,24 @@ class Vue():
              self.parent.validationTourCanon(x, y)
          else:
              pass
-
+     
      def affichageTourArcher(self, x, y):
          self.canevas.create_image(x, y, image = self.imgTourArcher, tags = ("TourArcher"))#ajouter tags
-     
+        
      def affichageCreep(self):
          self.canevas.delete('creeps')
 
          for creep in self.parent.modele.creeps:
              pos = creep.pos
-             self.canevas.create_image(pos.x, pos.y, image = self.imgTourCreep, tags="creeps")        
-        
+             self.canevas.create_image(pos.x, pos.y, image = self.imgCreep, tags="creeps")    
+
+     def afficherChemin(self, chemin):
+         #self.chemin = chemin
+         i = 0
+         while i < len(chemin)-1:
+             self.canevas.create_rectangle(chemin[i].x,chemin[i].y-50,chemin[i+1].x,chemin[i+1].y+50, width = 2, fill = "green", outline = "black", tags = ("chemin") )
+             i+=1
+
 class Joueur():
     def __init__(self, nom, score, ress, exp):
         self.nom = nom
@@ -178,4 +181,4 @@ class Joueur():
         
     def setRessource(self, ressource):
         self.ress = ressource
-        
+ 

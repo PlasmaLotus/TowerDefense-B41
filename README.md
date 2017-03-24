@@ -16,6 +16,7 @@ fichier de départ : src/main.py
 - les ennemis meurent
 
 ## ce qui fonctionne pas
+- les ennemis ne s'affichent pas
 - menu ne se met pas à jour
 - pas de projectiles visuels
 - gestion de fin de jeu et niveau(vagues infinies)

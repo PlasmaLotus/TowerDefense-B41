@@ -1,16 +1,26 @@
+# coding: utf-8
+from map import *
+from creep import *
 
-from map import Map, MapPreset1
-
-#Created Par Lee-Stenio
+#Cr�� Par Lee-Stenio
 
 #le Niveau contient une map et les waves du niveau (liste d'enemies par wave)
-class Niveau(object):
+class Niveau:
     def __init__(self):
-        self.map = Map()
-        self.waves = []
-        self.nextEnemy=0
+        self.map=Map()
+        #self.enemyList=[]
+        self.wave = 1
+        self.baseNbEnemies = 15
+        self.nbEnemies = 1
         self.spawnDelay=0#frames
-        self.maxSpawnDelay=100
+        self.creepHPScaling = 1 ##Ajout de HP a chaque vague
+        self.creepSpeedScaling = 1 ##ajout de Speed a chaque vague
+        self.spawnScaling = 1##r�duction de tenps entre le spawn de creeps
+        self.maxSpawnDelay=50##Delai de mise a jour avant d'ajouter un creep
+        self.minSpawnDelay = 10##delai minimum
+        self.creepHP = 1
+        self.creepSpeed = 1
+        
         
     def update(self):
         self.spawnDelay+=1
@@ -20,25 +30,47 @@ class Niveau(object):
         else:
             return False
         
-    def getNextEnemy(self, wave):
-        ##TODO::
-        enemy=self.nextEnemy
-        self.nextEnemy+=1
+    def getNextEnemy(self):
+        self.nbEnemies-=1
         #return self.waves[wave][enemy]
-        return Creep()
+        return Creep(self.map.pathPointList, self.creepHP, self.creepSpeed)
 
-    def hasEnemies(self, wave):
+    def hasEnemies(self):
         ##TODO:
-        if (len(self.waves) > 0):
+        if (self.nbEnemies > 0):
             return True
         else:
             return False
     
+    def reset(self):
+        self.nbEnemies = self.baseNbEnemies
+        self.spawnDelay = 0
+
+    def nextWave(self):
+        self.wave+= 1
+        self.baseNbEnemies+=1
+        self.reset()
+        self.creepHP+= self.creepHPScaling
+        self.creepSpeed+= self.creepSpeedScaling
+        
+        ##Augmente la vitesse de spawn a chaque 5 wave
+        if self.wave %5 == 0:
+            self.maxSpawnDelay -= 2
+            if self.maxSpawnDelay < self.minSpawnDelay:
+                self.maxSpawnDelay = self.minSpawnDelay
+        #Pour l'instant il n'y a qu'un seul niveau
+        #print("NextWave")
+        
     
 class NiveauDebug(Niveau):
     def __init__(self):
-        #super()
-        Niveau.__init__(self)
+        super().__init__()
         self.map=MapPreset1()
+        self.creepHP = 100
+        self.creepSpeed = 7
+        self.nbEnemies = 5
+        self.baseNbEnemies = 5
+        self.creepHPScaling = 10
+        self.creepSpeedScaling = 1
         #self.waves[0] = ["creep","creep","creep","creep","creep"]
         

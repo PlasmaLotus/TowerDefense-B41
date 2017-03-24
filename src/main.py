@@ -49,5 +49,10 @@ class Controleur():
          self.vue.root.config(cursor='hand2')
          self.nouvelleTourCanon = True
 
+    def update(self):
+         gameOver = self.modele.update()
+         self.vue.affichageCreep()
+         self.vue.root.after(32,self.update)
+
 if __name__ == '__main__':
     c = Controleur()
